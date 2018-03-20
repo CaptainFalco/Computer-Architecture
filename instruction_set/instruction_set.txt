@@ -1,5 +1,7 @@
 R-Type Instructions Opcode 000000
 
+Function code - instruction name - description.
+
        000001 - ADD - Add - Adds two registers and stores the result in a register.
 
        000010 - SUB - Subtract - Subtracts two registers and stores the result in a register.
@@ -31,6 +33,7 @@ R-Type Instructions Opcode 000000
        001111 - JR - Jump Register - Jumps to the address stored in a register (Not a J-Type because it needs a register as input).
 
 I-Type Instructions
+Opcode - instruction name - description.
        100001 - ADDI - Immediate Add - Adds a register and a sign extended immediate value and stores the result in a register.
 
        100010 - SUBI - Immediate Subtract - Adds a register and a sign extended immediate value and stores the result in a register.
@@ -60,6 +63,8 @@ I-Type Instructions
        101110 - BLE - Branch if less than or equal - Branches if the source register is less than or equal to the target register.
 
 J-Type Instructions
+Opcode - instruction name - description.
+
        000010 - J - Jump to address -  Jumps to the calculated address in the offset field.
 
        000011 - JAL - JUMP and link address - Jumps to the calculated address and stores the return address in register 31.
