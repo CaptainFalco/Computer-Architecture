@@ -1,0 +1,65 @@
+R-Type Instructions Opcode 000000
+
+       000001 - ADD - Add - Adds two registers and stores the result in a register.
+
+       000010 - SUB - Subtract - Subtracts two registers and stores the result in a register.
+
+       000011 - MUL - Multiply - Multiples two registers and stores the result in a register.
+
+       000100 - DIV - Divide - Divides two registers and stores the result in a register.
+
+       000101 - AND - Bitwise And - Bitwise Ands two registers and stores the result in a register.
+
+       000110 - NOR - Bitwise Nor - Bitwise Nors two registers and stores the result in a register.
+
+       000111 - OR - Bitwise Or - Bitwise Ors two registers and stores the result in a register.
+
+       001000 - XOR - Bitwise Xor - Bitwise Xors two registers and stores the result in a register.
+
+       001001 - MVHI - Move from HI register - Moves the contents from the register HI into the specified register.
+
+       001010 - MVLO - Move from LO register - Moves the contents from the register LO into the specified register.
+
+       001011 - SLL - Logical shift left - Shifts a register value left by the shift amount and places the value in the destination register. (Shifts in 0)
+
+       001100 - SRL - Logical shift right - Shifts a register value right by the shift amount and places the value in the destination register. (Shifts in 0)
+
+       001101 - SLA - Arithmetic shift left - Shifts a register value left by the shift amount and places the value in the destination register. (Shifts in sign bit)
+
+       001110 - SRA - Arithmetic shift right - Shifts a register value right by the shift amount and places the value in the destination register. (Shifts in sign bit)
+
+       001111 - JR - Jump Register - Jumps to the address stored in a register (Not a J-Type because it needs a register as input).
+
+I-Type Instructions
+       100001 - ADDI - Immediate Add - Adds a register and a sign extended immediate value and stores the result in a register.
+
+       100010 - SUBI - Immediate Subtract - Adds a register and a sign extended immediate value and stores the result in a register.
+
+       100011 - ANDI - Immediate Bitwise And - Bitwise Ands a register and an immediate value and stores the result in a register.
+
+       100100 - ORI - Immediate Bitwise Or - Bitwise Ors a register and an immediate value and stores the result in a register.
+
+       100101 - LW - Load word - Loads a word into a register from the specified address.
+
+       100110 - LB - Load byte - Loads a byte into a register from the specified address.
+
+       100111 - SW - Store word - Stores the content of the target register into the specified address.
+
+       101000 - SB - Store byte - Stores the least significant byte of the target register value and stores it in the specified address.
+
+       101001 - BEQ - Branch if equal - Branches if the two registers are equal.
+
+       101010 - BNE - Branch if not equal - Branches if the two registers are not equal.
+
+       101011 - BGT - Branch if greater than - Branches if the source register is greater than the target register.
+
+       101100 - BGE - Branch if greater than or equal - Branches if the source register is greater than or equal to the target register.
+
+       101101 - BLT - Branch if less than - Branches if the source register is less than the target register.
+
+       101110 - BLE - Branch if less than or equal - Branches if the source register is less than or equal to the target register.
+
+J-Type Instructions
+       000010 - J - Jump to address -  Jumps to the calculated address in the offset field.
+
+       000011 - JAL - JUMP and link address - Jumps to the calculated address and stores the return address in register 31.
