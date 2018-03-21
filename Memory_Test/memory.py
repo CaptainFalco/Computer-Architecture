@@ -1,6 +1,9 @@
 #!/usr/bin/python
 
 # Open our instructions.txt file to read and obtain our instructions
+
+from operations import operations
+
 import sys
 
 file_name = "instructions.txt"
@@ -30,4 +33,16 @@ while index < num_instr:
 
 # So, each instruction's opcode is the first 6 bits of the instruction
 # the file_text statement in the for loop finds the indeces of where each should be given the current instruction number
+
+
+# Identify each Opcode as a specific command and add it to an array
+
+operationController = operations() # Class reference for operation's methods
+instruction_array = []             # Holds all the instruction opcode's names
+index = 0
+
+while index < num_instr:           # Using our class reference, we can call the operationName method to obtain the opcodes' names
+    instruction_array.append(operationController.operationName(opcode_array[index]))
+    print(instruction_array[index])
+    index = index + 1
 
