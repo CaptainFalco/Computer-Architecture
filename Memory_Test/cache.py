@@ -10,7 +10,6 @@ class Cache:
     FIFO = "FIFO"
 
     # Mapping
-    WRITE_BACK = "WB"
     WRITE_THROUGH = "WT"
 
     def _init_(self, size, mem_size, block_size,
@@ -21,7 +20,7 @@ class Cache:
         self.mem_size = mem_size
         self.block_size = block_size
 
-        self.mapping = mapping
+        self.mapping = Cache.WRITE_THROUGH
         self.replacement = Cache.FIFO
         self.writing = writing
 

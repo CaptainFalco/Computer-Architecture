@@ -64,6 +64,9 @@ class Application(tk.Frame):
         self.memoryLabel["text"] = "Memory"
         self.memoryLabel.grid(row=1, column=0)
 
+        self.textBox = tk.Text(self)
+        self.textBox.insert(0,"Hello")
+
 
 
 
