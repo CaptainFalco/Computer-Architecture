@@ -1,97 +1,233 @@
 import tkinter as tk
+from tkinter import *
 
 
 class Application(tk.Frame):
 
+    def start_simulator(self):
+        self.increaseClockCycles()
+
+    def pause_simulator(self):
+        print("Set some variable in a running method to a pause condition until otherwise.")
+
+    def step_simulator(self):
+        print("Simulator takes a step.")
 
     def createWidgets(self):
         # Start the Simulator
         self.Start = tk.Button(self)
-        self.Start["text"] = "Start"
-        # self.Start["command"] = self.start_simulator
+        self.Start["text"] = "Start/Reset"
+        self.Start["command"] = self.start_simulator
         self.Start.grid(row=0, column=0)
-
-        # Pause the Simulator
-        # Suggestion: Creating a constant check every cycle to see if this button is pressed.
-        self.Pause = tk.Button(self)
-        self.Pause["text"] = "Pause"
-        # self.Pause["command"] = SET SOME VARIABLE FROM THE OTHER FILE TO BREAK A CONTINUE CONDITION
-        self.Pause.grid(row=0, column=1)
-
-
-        # Reset the Simulator (Basically calling start again
-        self.Reset = tk.Button(self)
-        self.Reset["text"] = "Reset"
-        self.Reset["command"] = self.updateMemory()
-        self.Reset.grid(row=0, column=2)
 
         # Closes window
         self.EXIT = tk.Button(self)
         self.EXIT["text"] = "QUIT"
         self.EXIT["fg"] = "red"
         self.EXIT["command"] = self.quit
-        self.EXIT.grid(row=0, column=3)
+        self.EXIT.grid(row=0, column=1)
 
-        for t in range(4, 33):
+
+        self.pcCounter = tk.Label(self)
+        self.pcCounter["text"] = "PC Counter:"
+        self.pcCounter.grid(row=0, column=2)
+
+        self.pcValue = tk.Label(self)
+        self.pcValue["text"] = self.pcCount
+        self.pcValue.grid(row=0, column=3)
+
+        self.spacer = tk.Label(self)
+        self.spacer["text"] = "   "
+        self.spacer.grid(row=0, column=4)
+
+        self.spacer = tk.Label(self)
+        self.spacer["text"] = "   "
+        self.spacer.grid(row=0, column=5)
+
+        self.ccLabel = tk.Label(self)
+        self.ccLabel["text"] = "Cycle Counter:   "
+        self.ccLabel.grid(row=0, column=6)
+
+        self.ccValue = tk.Label(self)
+        self.ccValue["text"] = self.clockCycles
+        self.ccValue.grid(row=0, column=7)
+
+        for t in range(11, 33):
             self.build = tk.Label(self)
             self.build["text"] = "          "
             # self.build["command"] = self.build_memory
             self.build.grid(row=0, column=t)
 
-        self.memoryLabel = tk.Label(self)
-        self.memoryLabel["text"] = "Memory"
-        self.memoryLabel.grid(row=1, column=0)
+        # ROW 0 ENDS HERE
 
-        for t in range(1, 33):
-            self.address = tk.Label(self)
-            self.address["text"] = t-1
-            self.address.grid(row=2, column = t)
-            self.addressVal = tk.Label(self)
-            self.addressVal["text"] = 0
-            self.addressVal.grid(row=3, column=t)
+        self.spacer = tk.Label(self)
+        self.spacer["text"] = "   "
+        self.spacer.grid(row=1, column=0)
+
+        # Pause the Simulator
+        # Suggestion: Creating a constant check every cycle to see if this button is pressed.
+        self.Pause = tk.Button(self)
+        self.Pause["text"] = "     Pause    "
+        self.Pause["command"] = self.pause_simulator   # SET SOME VARIABLE FROM THE OTHER FILE TO BREAK A CONTINUE CONDITION
+        self.Pause.grid(row=2, column=0)
+
+        # Step
+        self.Reset = tk.Button(self)
+        self.Reset["text"] = "Step"
+        self.Reset["command"] = self.step_simulator
+        self.Reset.grid(row=2, column=1)
+
+        # ROW 2 ENDS HERE
+
+        self.spacer = tk.Label(self)
+        self.spacer["text"] = "   "
+        self.spacer.grid(row=3, column=0)
 
         self.memoryLabel = tk.Label(self)
-        self.memoryLabel["text"] = "Registers"
+        self.memoryLabel["text"] = "Memory Address :  Value"
         self.memoryLabel.grid(row=4, column=0)
 
-        for t in range(1, 9):
-            self.address = tk.Label(self)
-            self.address["text"] = t-1
-            self.address.grid(row=5, column = t)
-            self.addressVal = tk.Label(self)
-            self.addressVal["text"] = 0
-            self.addressVal.grid(row=6, column=t)
+        if self.initiator == 0:
+            scrollbar1 = Scrollbar(root)
+            scrollbar1.pack(side=LEFT, fill=Y)
+            self.mylist1 = Listbox(root, yscrollcommand=scrollbar1.set)
+            for line in range(320):
+                if line < 10:
+                    memoryValues.append(0)
+                    self.mylist1.insert(END, str(line) + "                        :      " + str(memoryValues[line]))
+                else:
+                    memoryValues.append(0)
+                    self.mylist1.insert(END, str(line) + "                      :      " + str(memoryValues[line]))
+            self.mylist1.pack(side=LEFT, fill=BOTH)
 
-        self.memoryLabel = tk.Label(self)
-        self.memoryLabel["text"] = "Clock Cycles:"
-        self.memoryLabel.grid(row=7, column=0)
+            self.spacer = tk.Label(self)
+            self.spacer["text"] = "   "
+            self.spacer.grid(row=5, column=0)
 
-    def updateMemory(self):
-        index = 0
-        '''for r in range(2,10):
-            for c in range(8):
-                self.memoryLabel = tk.Label(self)
-                self.memoryLabel.grid(row = r, column = c)
-                self.memoryLabel["text"] = memorySpots[index]
-                index = index+1'''
+            self.memoryLabel = tk.Label(self)
+            self.memoryLabel["text"] = "       Register            :  Value"
+            self.memoryLabel.grid(row=4, column=1)
+
+            scrollbar2 = Scrollbar(root)
+            scrollbar2.pack(side=LEFT, fill=Y)
+            mylist2 = Listbox(root, yscrollcommand=scrollbar2.set)
+            for line in range(320):
+                if line < 10:
+                    registerValues.append(0)
+                    mylist2.insert(END, str(line) + "                        :      " + str(registerValues[line]))
+                else:
+                    registerValues.append(0)
+                    mylist2.insert(END, str(line) + "                      :      " + str(registerValues[line]))
+            mylist2.pack(side=LEFT, fill=BOTH)
+
+            self.memoryLabel = tk.Label(self)
+            self.memoryLabel["text"] = "       Cache              :  Value"
+            self.memoryLabel.grid(row=4, column=2)
+
+            scrollbar3 = Scrollbar(root)
+            scrollbar3.pack(side=LEFT, fill=Y)
+            mylist3 = Listbox(root, yscrollcommand=scrollbar3.set)
+            for line in range(320):
+                if line < 10:
+                    cacheValues.append(0)
+                    mylist3.insert(END, str(line) + "                        :      " + str(cacheValues[line]))
+                else:
+                    cacheValues.append(0)
+                    mylist3.insert(END, str(line) + "                      :      " + str(cacheValues[line]))
+            mylist3.pack(side=LEFT, fill=BOTH)
+            self.initiator = 1
+        else:
+            scrollbar1 = Scrollbar(root)
+            scrollbar1.pack(side=LEFT, fill=Y)
+            mylist1 = Listbox(root, yscrollcommand=scrollbar1.set)
+            for line in range(320):
+                if line < 10:
+                    mylist1.insert(END, str(line) + "                        :      " + str(memoryValues[line]))
+                else:
+                    mylist1.insert(END, str(line) + "                      :      " + str(memoryValues[line]))
+            mylist1.pack(side=LEFT, fill=BOTH)
+
+            self.spacer = tk.Label(self)
+            self.spacer["text"] = "   "
+            self.spacer.grid(row=5, column=0)
+
+            self.memoryLabel = tk.Label(self)
+            self.memoryLabel["text"] = "       Register            :  Value"
+            self.memoryLabel.grid(row=4, column=1)
+
+            scrollbar2 = Scrollbar(root)
+            scrollbar2.pack(side=LEFT, fill=Y)
+            mylist2 = Listbox(root, yscrollcommand=scrollbar2.set)
+            for line in range(320):
+                if line < 10:
+                    mylist2.insert(END, str(line) + "                        :      " + str(registerValues[line]))
+                else:
+                    mylist2.insert(END, str(line) + "                      :      " + str(registerValues[line]))
+            mylist2.pack(side=LEFT, fill=BOTH)
+
+            self.memoryLabel = tk.Label(self)
+            self.memoryLabel["text"] = "       Cache              :  Value"
+            self.memoryLabel.grid(row=4, column=2)
+
+            scrollbar3 = Scrollbar(root)
+            scrollbar3.pack(side=LEFT, fill=Y)
+            mylist3 = Listbox(root, yscrollcommand=scrollbar3.set)
+            for line in range(320):
+                if line < 10:
+                    mylist3.insert(END, str(line) + "                        :      " + str(cacheValues[line]))
+                else:
+                    mylist3.insert(END, str(line) + "                      :      " + str(cacheValues[line]))
+            mylist3.pack(side=LEFT, fill=BOTH)
+
+    def increaseClockCycles(self):
+        self.clockCycles = self.clockCycles + 1
+        self.ccValue = tk.Label(self)
+        self.ccValue.grid(row=0, column=7)
+        self.ccValue["text"] = self.clockCycles
+
+
+    def increasePCCounter(self):
+        self.pcCount = self.pcCount + 1
+        self.pcValue = tk.Label(self)
+        self.pcValue["text"] = self.pcCount
+        self.pcValue.grid(row=0, column=3)
 
     def edit_memory(self, slot, value):
         memoryValues[slot] = value
-        self.updateMemory
+        self.mylist1.delete(slot, None)
+        self.mylist1.insert(slot, str(slot) + "                        :      " + str(memoryValues[slot]))
+
+    def edit_register(self, slot, value):
+        registerValues[slot] = value
+        self.mylist2.delete(slot, None)
+        self.mylist2.insert(slot, str(slot) + "                        :      " + str(registerValues[slot]))
+
+    def edit_cache(self, slot, value):
+        cacheValues[slot] = value
+        self.mylist3.delete(slot, None)
+        self.mylist3.insert(slot, str(slot) + "                        :      " + str(cacheValues[slot]))
+
 
     def __init__(self, master=None):
         tk.Frame.__init__(self, master)
         self.pack()
+        self.initiator = 0
+        self.clockCycles = 0
+        self.pcCount = 0
+        self.initiator = 0
         self.createWidgets()
 
-memorySpots = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
-memoryValues = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-registerSpots = [0,1,2,3,4,5,6,7]
-registerValues = [0,0,0,0,0,0,0,0]
-# memorySpots = [[0,0],[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[1,0],[1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7],[2,0],[2,1],[2, 2],[2,3],[2,4],[2,5],[2,6],[2,7],[3,0],[3,1],[3,2],[3,3],[3,4],[3,5],[3,6],[3,7],[4,0],[4,1],[4,2],[4,3],[4,4],[4,5],[4,6],[4,7],[5,0],[5,1],[5,2],[5,3],[5,4],[5,5],[5,6],[5,7],[6,0],[6,1],[6,2],[6,3],[6,4],[6,5],[6,6],[6,7],[7,0],[7,1],[7,2],[7,3],[7,4],[7,5],[7,6],[7,7]]
+memoryValues = []
+registerValues = []
+cacheValues = []
+mylist1 = []
+mylist2 = []
+mylist3 = []
+
+
 
 root = tk.Tk()
-root.geometry("1300x400")
+root.geometry("800x400")
 app = Application(master=root)
 app.mainloop()
 root.destroy()
