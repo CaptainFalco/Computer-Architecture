@@ -3,10 +3,10 @@ class Memory:
    Class representing main memory as an array
    """
 
-   def _init_(self, size, block_size):
+   def __init__(self, size, block_size):
       self.size = size
       self.block_size = block_size
-      self.data = None
+      self.data = [0 for i in range(size)]
 
    def get_block(self, address):
       """
@@ -27,7 +27,7 @@ class Memory:
       start = address - (address % self.block_size)
       end = start + self.block_size
 
-      if start < 0 or start > self.size:
+      if start < 0 or end > self.size:
          raise IndexError
 
       self.data[start:end] = data

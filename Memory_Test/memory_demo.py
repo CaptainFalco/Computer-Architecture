@@ -9,9 +9,9 @@ from cache import Cache
 cycle = 0
 main_memory = Memory(32*100,32)
 cache = Cache(32, 32*10, 32)
-registers = [Memory(32,8) for i in range(0,34)]
-registers[reg_map['r0']].set_block(0,0)
-registers[reg_map['pc']].set_block(0,0)
+registers = [Memory(32,32) for i in range(0,35)]
+registers[reg_map['r0']].set_block(0,[0])
+registers[reg_map['pc']].set_block(0,[0])
 
 runs = {
     'step': 0,

@@ -3,7 +3,7 @@ class Cline:
     Represents a line in the cache.
     """
 
-    def _init_(self, size):
+    def __init__(self, size):
         self.use = 0
         self.modified = 0
         self.valid = 0

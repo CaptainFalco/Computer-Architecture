@@ -12,17 +12,17 @@ class Cache:
     # Mapping
     WRITE_THROUGH = "WT"
 
-    def _init_(self, size, mem_size, block_size):
-        self.lines = [Line(block_size) for i in range(size // block_size)]
+    def __init__(self, size, mem_size, block_size):
+        self.lines = [Cline(block_size) for i in range(size // block_size)]
 
         self.size = size
         self.mem_size = mem_size
         self.block_size = block_size
 
-        self.mapping = Cache.WRITE_THROUGH
+        self.mapping = 1
         self.replacement = Cache.FIFO
 
-        self.tag_shift = int(log(self.size // self.mapping))
+        self.tag_shift = int(log(self.size // self.mapping, 2))
         self.set_shift = int(log(self.block_size, 2))
 
     def read(self, address):

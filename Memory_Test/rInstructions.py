@@ -1,3 +1,9 @@
+def add(address, mem1, mem2, mem3):
+    mem1.set_block(address, mem2.get_block(address) + mem3.get_block(address))
+
+def sub(address, mem1, mem2, mem3):
+    mem1.set_block(address, mem2.get_block(address) - mem3.get_block(address))
+
 r_type_map = {
     0b000001: add,
     0b000010: sub,
@@ -16,8 +22,3 @@ r_type_map = {
 #   'JR': 0b001111
 }
 
-def add(address, mem1, mem2, mem3):
-    mem1.set_block(address, mem2.get_block(address) + mem3.get_block(address))
-
-def sub(address, mem1, mem2, mem3):
-    mem1.set_block(address, mem2.get_block(address) - mem3.get_block(address))
