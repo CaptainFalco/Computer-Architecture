@@ -30,4 +30,5 @@ class Memory:
       if start < 0 or end > self.size:
          raise IndexError
 
+      start += (self.block_size - len(data))
       self.data[start:end] = data
