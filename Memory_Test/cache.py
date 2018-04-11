@@ -118,5 +118,5 @@ class Cache:
         if line.use < self.mapping:
             line.use = self.mapping
             for other in set:
-                if other is not liine and other.use > use:
+                if other is not line and other.use > use:
                     other.use -= 1
