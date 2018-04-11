@@ -6,25 +6,30 @@ from register import *
 from memory import Memory
 from cache import Cache
 
+
 cycle = 0
-pc = 0
+
 main_memory = Memory(32*100,32)
 cache = Cache(32, 32*10, 32)
 registers = [Memory(32,32) for i in range(0,35)]
 registers[reg_map['r0']].set_block(0,[0])
 registers[reg_map['pc']].set_block(0,[0])
 
+
+
 runs = {
     'step': 0,
     'full': 1
 }
 
-def run(instructions, run_type):
+def run(instructions, run_type, pc):
     """
     """
+
     for inst in instructions:
-        if pc >= instructions.length:
+        if pc >= len(instructions):
             break
+
 
         inst = instructions[pc]
         if inst is opcode_map['r']:
@@ -34,5 +39,10 @@ def run(instructions, run_type):
         if inst is opcode_map['j']:
             break
         pc += 1
+
+
+
+        #sm.increasePCCounter
+
         if run_type is runs['step']:
             break
