@@ -7,6 +7,7 @@ from memory import Memory
 from cache import Cache
 
 cycle = 0
+pc = 0
 main_memory = Memory(32*100,32)
 cache = Cache(32, 32*10, 32)
 registers = [Memory(32,32) for i in range(0,35)]
@@ -21,15 +22,17 @@ runs = {
 def run(instructions, run_type):
     """
     """
-
     for inst in instructions:
-        inst = instructions[registers[reg_map['pc']].get_block(0)]
+        if pc >= instructions.length:
+            break
+
+        inst = instructions[pc]
         if inst is opcode_map['r']:
             r_type_map[inst]()
         if inst is opcode_map['i']:
             i_type_map[inst]()
         if inst is opcode_map['j']:
             break
+        pc += 1
         if run_type is runs['step']:
             break
-
