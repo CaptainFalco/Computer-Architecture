@@ -1,7 +1,7 @@
 hits = 0
 misses = 0
 
-def read_word(address, memory, cache):
+def read_word(address, reg, memory, cache, registers):
     """
     Read from Memory
     """
@@ -21,7 +21,7 @@ def read_word(address, memory, cache):
         if victim_info:
             memory.set_block(victim_info[0], victim_info[1])
 
-    return cache_block[cache.get_offset(address)]
+    registers[int(reg)].set_block(0, cache_block[cache.get_offset(address)])
 
 def write_word(address, byte, memory, cache):
     """

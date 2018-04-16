@@ -12,7 +12,7 @@ class Memory:
       """
       Get a block of memory that contains the byte address
       """
-      start = address - (address % self.block_size)
+      start = address * self.block_size
       end = start + self.block_size
 
       if start < 0 or start > self.size:
@@ -20,7 +20,7 @@ class Memory:
 
       return self.data[start:end]
 
-   def set_block(self, address, data):
+   def set_block(self, address, new_data):
       """
       Set a block of memory that contains the byte address with data
       """
@@ -30,5 +30,5 @@ class Memory:
       if start < 0 or end > self.size:
          raise IndexError
 
-      start += (self.block_size - len(data))
-      self.data[start:end] = data
+      start += (self.block_size - len(new_data))
+      self.data[start:end] = new_data
