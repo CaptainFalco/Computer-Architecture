@@ -1,53 +1,27 @@
-hits = 0
-misses = 0
-
 def read_word(address, reg, memory, cache, registers):
     """
     Read from Memory
     """
-    cache_block = cache.read(address)
+    cadd = address % 10
+    if cache[cadd].modified == 0:
+        data = memory.get_block(address)
+        cache[cadd].write(data)
 
-    if cache_block:
-        global hits
-        hits += 1
-    else:
-        block = memory.get_block(address)
-        victim_info = cache.load(address, block)
-        cache_block = cache.read(address)
 
-        global misses
-        misses += 1
-
-        if victim_info:
-            memory.set_block(victim_info[0], victim_info[1])
-
-    registers[int(reg)].set_block(0, cache_block[cache.get_offset(address)])
-
-def write_word(address, byte, memory, cache):
+def write_word(address, byte, memory):
     """
-    Write to the cache
+    Write to Memory
     """
-    written = cache.write(address, byte)
-
-    if written:
-        global hits
-        hits += 1
-    else:
-        global misses
-        misses += 1
-
-    block = memory.get_block(address)
-    block[cache.get_offset(address)] = byte
-    memory.set_block(address, block)
+    memory.set_block(address, byte)
 
 i_type_map = {
     'ADDI': 0b100001,
     'SUBI': 0b100010,
     'ANDI': 0b100011,
     'ORI': 0b100100,
-    0b100101: read_word,
+    'RW': 0b100101,
     'LB': 0b100110,
-    0b100111: write_word,
+    'SW': 0b100111,
     'SB': 0b101000,
     'BEQ': 0b101001,
     'BNE': 0b101010,

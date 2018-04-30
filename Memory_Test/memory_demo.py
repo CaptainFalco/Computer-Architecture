@@ -4,16 +4,14 @@ from operations import *
 
 from register import *
 from memory import Memory
-from cache import Cache
+from cline import Cline
 
 
 cycle = 0
 
 main_memory = Memory(32*100,32)
-cache = Cache(32, 32*10, 32)
-registers = [Memory(32,32) for i in range(0,35)]
-registers[reg_map['r0']].set_block(0,[0])
-registers[reg_map['pc']].set_block(0,[0])
+cache = [Cline(32) for i in range(0,9)]
+registers = [Memory(32,32) for i in range(0,31)]
 
 runs = {
     'step': 0,
@@ -30,7 +28,7 @@ def run(instructions, run_type, pc):
 
         inst = instructions[pc]
         op = inst[0:5]
-        
+
         reg = inst[6:10]
         val = inst[11:]
         if op is opcode_map['r']:
