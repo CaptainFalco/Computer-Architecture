@@ -2,25 +2,25 @@ def read_word(address, reg, memory, cache, registers):
     """
     Read from Memory
     """
-    cadd = address % 10
+    cadd = int(address, 2) % 10
+    data = memory.get_block(int(address,2))
     if cache[cadd].modified == 0:
-        data = memory.get_block(address)
         cache[cadd].write(data)
-    registers[int(reg)].set_block(0, cache[cadd].read())
+    registers[int(reg,2)].set_block(0, data)
 
 def write_word(address, reg, memory, registers):
     """
     Write to Memory
     """
-    data = registers[reg].get_block(0)
-    memory.set_block(address, data)
+    data = registers[int(reg,2)].get_block(0)
+    memory.set_block(int(address,2), data)
 
 i_type_map = {
     'ADDI': 0b100001,
     'SUBI': 0b100010,
     'ANDI': 0b100011,
     'ORI': 0b100100,
-    'RW': 0b100101,
+    'LW': '0b100101',
     'LB': 0b100110,
     'SW': 0b100111,
     'SB': 0b101000,

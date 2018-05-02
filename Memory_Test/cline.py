@@ -21,7 +21,7 @@ class Cline:
         """
         write to the cache line
         """
-        if new_data > self.size:
+        if len(new_data) > self.size:
             raise IndexError
         self.modified = 1
-        self.data[0] = new_data
+        self.data = new_data
