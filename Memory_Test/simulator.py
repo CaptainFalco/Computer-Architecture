@@ -1,17 +1,26 @@
 import tkinter as tk
 from tkinter import *
+# from memory_demo import *
+import memory_demo as md
 
 
 class Application(tk.Frame):
 
+    # theClass = md.run()
+
     def start_simulator(self):
-        self.increaseClockCycles()
+        # Add parameter pc for self.pcCount
+        md.run(true_array,1,0)
+        self.update_memory()
+        self.update_register()
 
     def pause_simulator(self):
-        print("Set some variable in a running method to a pause condition until otherwise.")
+        self.update_memory()
 
     def step_simulator(self):
-        print("Simulator takes a step.")
+        md.run(true_array, 0, self.pcCount)
+        self.update_memory()
+        self.update_register()
 
     def createWidgets(self):
         # Start the Simulator
@@ -110,15 +119,15 @@ class Application(tk.Frame):
 
             scrollbar2 = Scrollbar(root)
             scrollbar2.pack(side=LEFT, fill=Y)
-            mylist2 = Listbox(root, yscrollcommand=scrollbar2.set)
+            self.mylist2 = Listbox(root, yscrollcommand=scrollbar2.set)
             for line in range(32):
                 if line < 10:
                     registerValues.append(0)
-                    mylist2.insert(END, str(line) + "                        :      " + str(registerValues[line]))
+                    self.mylist2.insert(END, str(line) + "                        :      " + str(registerValues[line]))
                 else:
                     registerValues.append(0)
-                    mylist2.insert(END, str(line) + "                      :      " + str(registerValues[line]))
-            mylist2.pack(side=LEFT, fill=BOTH)
+                    self.mylist2.insert(END, str(line) + "                      :      " + str(registerValues[line]))
+            self.mylist2.pack(side=LEFT, fill=BOTH)
 
             self.memoryLabel = tk.Label(self)
             self.memoryLabel["text"] = "       Cache              :  Value"
@@ -207,6 +216,31 @@ class Application(tk.Frame):
         self.mylist3.delete(slot, None)
         self.mylist3.insert(slot, str(slot) + "                        :      " + str(cacheValues[slot]))
 
+    def update_memory(self):
+        for index in range(0,99):
+            self.edit_memory(index,self.translate_to_int(md.main_memory.get_block(index)))
+
+    def update_register(self):
+        for index in range(0, 31):
+            self.edit_register(index, self.translate_to_int(md.registers[index].get_block(0)))
+
+    def update_cache(self, new_cache):
+        for index in range(0, 9):
+            self.edit_cache(index, self.translate_to_int(md.cache.get_block(index)))
+
+    def translate_to_int(self, translator):
+        number = 0
+        if '1' in translator:
+            number = int("".join(str(x) for x in translator[translator.index('1'):]), 2)
+
+        print(number)
+        return number
+        #  Translate the array of binary digits to binary.
+
+    def translate_to_iter(self, translator):
+        bin_arr = [int(d) for d in str(bin(binary))[2:]]
+        # Translate binary into an array of binary digits.
+
 
     def __init__(self, master=None):
         tk.Frame.__init__(self, master)
@@ -223,6 +257,37 @@ cacheValues = []
 mylist1 = []
 mylist2 = []
 mylist3 = []
+new_list = []
+
+# translator = []
+
+file_name = "instructions.txt"
+try:
+   file = open(file_name, "r")     # open file stream
+except IOError:
+   print ("There was an error writing to", file_name)
+   sys.exit()
+
+file_text = file.read()            # read text from the file
+file.close()
+
+print(file_text)
+file_length = len(file_text) - 1 # number of bits
+num_instr = file_length / 32       # 32 bits per instruction
+
+# print("Number of instructions: ", (num_instr))                   # print how many instructions we have in the txt file
+function_array = []                  # store our function instructions (size is based on number of instructions in file)
+index = 0                          # for the loop
+
+while index < num_instr:
+    function_array.append(file_text[index*32: index*32+31])
+    index = index + 1
+
+true_array = []
+index = 0
+while index < num_instr:
+    true_array.append(int(function_array[index],2))
+    index = index + 1
 
 
 
