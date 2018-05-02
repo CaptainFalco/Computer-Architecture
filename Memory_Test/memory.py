@@ -15,7 +15,7 @@ class Memory:
       start = address * self.block_size
       end = start + self.block_size
 
-      if start < 0 or start > self.size:
+      if start < 0 or end > self.size:
          raise IndexError
 
       return self.data[start:end]
@@ -24,11 +24,14 @@ class Memory:
       """
       Set a block of memory that contains the byte address with data
       """
-      start = address - (address % self.block_size)
-      end = start + self.block_size
+      start = address * self.block_size
+      end = start + self.block_size - 1
 
       if start < 0 or end > self.size:
          raise IndexError
+
+      clear = [0] * self.block_size
+      self.data[start:end] = clear
 
       start += (self.block_size - len(new_data))
       self.data[start:end] = new_data

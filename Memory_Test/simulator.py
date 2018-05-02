@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import *
 # from memory_demo import *
 import memory_demo as md
+import assembler
 
 
 class Application(tk.Frame):
@@ -12,14 +13,17 @@ class Application(tk.Frame):
         # Add parameter pc for self.pcCount
         md.run(true_array,1,0)
         self.update_memory()
+        self.update_cache()
         self.update_register()
 
     def pause_simulator(self):
         self.update_memory()
+        self.update_cache()
 
     def step_simulator(self):
         md.run(true_array, 0, self.pcCount)
         self.update_memory()
+        self.update_cache()
         self.update_register()
 
     def createWidgets(self):
@@ -135,15 +139,15 @@ class Application(tk.Frame):
 
             scrollbar3 = Scrollbar(root)
             scrollbar3.pack(side=LEFT, fill=Y)
-            mylist3 = Listbox(root, yscrollcommand=scrollbar3.set)
+            self.mylist3 = Listbox(root, yscrollcommand=scrollbar3.set)
             for line in range(10):
                 if line < 10:
                     cacheValues.append(0)
-                    mylist3.insert(END, str(line) + "                        :      " + str(cacheValues[line]))
+                    self.mylist3.insert(END, str(line) + "                        :      " + str(cacheValues[line]))
                 else:
                     cacheValues.append(0)
-                    mylist3.insert(END, str(line) + "                      :      " + str(cacheValues[line]))
-            mylist3.pack(side=LEFT, fill=BOTH)
+                    self.mylist3.insert(END, str(line) + "                      :      " + str(cacheValues[line]))
+            self.mylist3.pack(side=LEFT, fill=BOTH)
             self.initiator = 1
         else:
             scrollbar1 = Scrollbar(root)
@@ -224,16 +228,15 @@ class Application(tk.Frame):
         for index in range(0, 31):
             self.edit_register(index, self.translate_to_int(md.registers[index].get_block(0)))
 
-    def update_cache(self, new_cache):
+    def update_cache(self):
         for index in range(0, 9):
-            self.edit_cache(index, self.translate_to_int(md.cache.get_block(index)))
+            self.edit_cache(index, self.translate_to_int(md.cache[index].read()))
 
     def translate_to_int(self, translator):
         number = 0
         if '1' in translator:
             number = int("".join(str(x) for x in translator[translator.index('1'):]), 2)
 
-        print(number)
         return number
         #  Translate the array of binary digits to binary.
 
@@ -262,34 +265,8 @@ new_list = []
 # translator = []
 
 file_name = "instructions.txt"
-try:
-   file = open(file_name, "r")     # open file stream
-except IOError:
-   print ("There was an error writing to", file_name)
-   sys.exit()
 
-file_text = file.read()            # read text from the file
-file.close()
-
-print(file_text)
-file_length = len(file_text) - 1 # number of bits
-num_instr = file_length / 32       # 32 bits per instruction
-
-# print("Number of instructions: ", (num_instr))                   # print how many instructions we have in the txt file
-function_array = []                  # store our function instructions (size is based on number of instructions in file)
-index = 0                          # for the loop
-
-while index < num_instr:
-    function_array.append(file_text[index*32: index*32+31])
-    index = index + 1
-
-true_array = []
-index = 0
-while index < num_instr:
-    true_array.append(int(function_array[index],2))
-    index = index + 1
-
-
+true_array = assembler.assemble(file_name)
 
 root = tk.Tk()
 root.geometry("800x400")
