@@ -10,15 +10,15 @@ def assemble(self, filename):
     """
     Takes a file and outputs binary instructions.
     """
-    ass_file = open(filename, 'r')
+    try:
+        ass_file = open(filename, 'r')
+    except IOError:
+        print ("There was an error writing to", file_name)
+        sys.exit()
 
     for line in ass_file:
         for word in line:
-            if len(word) == 26:
-                instruction.append(j_off_to_bin(word))
-            elif len(word) == 16:
-                instruction.append(imm_to_bin(word))
-            elif word in reg_map.keys:
+            if word in reg_map.keys:
                 instruction.append(reg_to_bin(word))
             elif word in r_type_map.keys:
                 instruction.append(inst_to_bin(word))
@@ -26,7 +26,15 @@ def assemble(self, filename):
                 instruction.append(inst_to_bin(word))
             elif word in j_type_map.keys:
                 instruction.append(inst_to_bin(word))
+            else:
+                if line[0] in i_type_map.values:
+                    instruction.append(imm_to_bin(word))
+                elif line[0] in j_type_map.values:
+                    instruction.append(j_off_to_bin(word))
+
         instruction_list.append(instruction)
+
+    ass_file.close()
 
 
 def reg_to_bin(reg):

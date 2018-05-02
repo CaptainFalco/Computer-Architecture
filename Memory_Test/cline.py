@@ -11,11 +11,11 @@ class Cline:
         self.size = size
         self.data = [0] * size
 
-    def read(self, address):
+    def read(self):
         """
         read from the cache line
         """
-        return self.data[0]
+        return self.data
 
     def write(self, new_data):
         """

@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import *
 # from memory_demo import *
 import memory_demo as md
+import assembler
 
 
 class Application(tk.Frame):
@@ -226,7 +227,7 @@ class Application(tk.Frame):
 
     def update_cache(self, new_cache):
         for index in range(0, 9):
-            self.edit_cache(index, self.translate_to_int(md.cache.get_block(index)))
+            self.edit_cache(index, self.translate_to_int(md.cache[index].read()))
 
     def translate_to_int(self, translator):
         number = 0
@@ -262,34 +263,8 @@ new_list = []
 # translator = []
 
 file_name = "instructions.txt"
-try:
-   file = open(file_name, "r")     # open file stream
-except IOError:
-   print ("There was an error writing to", file_name)
-   sys.exit()
 
-file_text = file.read()            # read text from the file
-file.close()
-
-print(file_text)
-file_length = len(file_text) - 1 # number of bits
-num_instr = file_length / 32       # 32 bits per instruction
-
-# print("Number of instructions: ", (num_instr))                   # print how many instructions we have in the txt file
-function_array = []                  # store our function instructions (size is based on number of instructions in file)
-index = 0                          # for the loop
-
-while index < num_instr:
-    function_array.append(file_text[index*32: index*32+31])
-    index = index + 1
-
-true_array = []
-index = 0
-while index < num_instr:
-    true_array.append(int(function_array[index],2))
-    index = index + 1
-
-
+true_array = assembler.assemble(file_name)
 
 root = tk.Tk()
 root.geometry("800x400")

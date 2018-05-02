@@ -5,6 +5,7 @@ def sub(address, mem1, mem2, mem3):
     mem1.set_block(address, mem2.get_block(address) - mem3.get_block(address))
 
 r_type_map = {
+    'BASE': 0b000000,
     'ADD': 0b000001,
     'SUB': 0b000010,
     'MUL': 0b000011,

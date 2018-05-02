@@ -6,13 +6,14 @@ def read_word(address, reg, memory, cache, registers):
     if cache[cadd].modified == 0:
         data = memory.get_block(address)
         cache[cadd].write(data)
+    registers[int(reg)].set_block(0, cache[cadd].read())
 
-
-def write_word(address, byte, memory):
+def write_word(address, reg, memory, registers):
     """
     Write to Memory
     """
-    memory.set_block(address, byte)
+    data = registers[reg].get_block(0)
+    memory.set_block(address, data)
 
 i_type_map = {
     'ADDI': 0b100001,

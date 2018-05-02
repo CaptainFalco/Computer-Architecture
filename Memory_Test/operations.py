@@ -1,21 +1,13 @@
-opcode_map = {
-    'r': "000000",
-    'i': "100000",
-    'j': "000010"
-}
+from iInstructions import *
+from rInstructions import *
+from jInstructions import *
 
-j_type_map = {
-    'J': 0b000010,
-    'JAL': 0b000011
-}
-
-
-class operations:
+class Operations:
     """
     Hold's the different instruction operations
     """
 
-    def operationName(self, opcode) -> str:
+    def operationName(self, opcode):
         if opcode == 0b000000:
             return("R-Type Instruction")
         elif opcode == 0b000010:
@@ -25,7 +17,7 @@ class operations:
         else:
             return("I-Type Instruction")
 
-    def functionName(self, opcode, function) -> str:
+    def functionName(self, opcode, function, instruction, memory, cache, registers):
         if opcode == 0b000000:
             if function == 0b000001:
                 return "ADD"
@@ -39,7 +31,7 @@ class operations:
                 return "AND"
             elif function == 0b000110:
                 return "NOR"
-            elif function == "000111":
+            elif function == 0b000111:
                 return "OR"
             elif function == 0b001000:
                 return "XOR"
@@ -72,11 +64,11 @@ class operations:
             elif function == 0b100100:
                 return "ORI"
             elif function == 0b100101:
-                return "LW"
+                read_word(instruction[-1], instruction[1], memory, cache, registers)
             elif function == 0b100110:
                 return "LB"
             elif function == 0b100111:
-                return "SW"
+                write_word(instruction[-1], instruction[1], memory, registers)
             elif function == 0b101000:
                 return "SB"
             elif function == 0b101001:
